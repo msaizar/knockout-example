@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Knockout Example App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="media/css/bootstrap.css">
+    </head>
+    <body>
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="container-fluid">
+                <a data-bind="click: enableSplashScreen" class="brand" href="#">
+                  School App
+                </a>
+                <ul class="nav">
+                    <li data-bind="click: enableSplashScreen"><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+          </div>
+        </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+                <ul class="nav nav-list well">
+                    <li class="nav-header">School App</li>
+                    <li data-bind="click: enableClassrooms, css: { active: shouldShowClassrooms }"><a href="#"><i data-bind="css: { 'icon-white': shouldShowClassrooms }" class="icon-book"></i> Classrooms</a></li>
+                    <li data-bind="click: enableTeachers, css: { active: shouldShowTeachers }"><a href="#"><i data-bind="css: { 'icon-white': shouldShowTeachers }" class="icon-user"></i> Teachers</a></li>
+                    <li data-bind="click: enableStudents, css: { active: shouldShowStudents }"><a href="#"><i data-bind="css: { 'icon-white': shouldShowStudents }" class="icon-user"></i> Students</a></li>        
+                </ul>
+            
+            </div>
+            <div class="span10">
+                
+                <div data-bind="visible: shouldShowSplashScreen" class="hero-unit">
+                  <h1>School App</h1>
+                  <p>Example app in knockout.js</p>
+                  <p>
+                    <a class="btn btn-primary btn-large">
+                      Get started
+                    </a>
+                  </p>
+                </div>
+                
+                <div data-bind="visible: shouldShowClassrooms">
+                <h1>Classrooms</h1>
+                </div>
+                <div data-bind="visible: shouldShowTeachers">
+                <h1>Teachers</h1>
+                </div>
+                <div data-bind="visible: shouldShowStudents">
+                <h1>Students</h1>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+    </div>
+
+    
+    <script src="media/js/knockout-2.1.0.js"></script>
+    <script src="media/js/tabs.js"></script>
+    
+    </body>
+</html>
