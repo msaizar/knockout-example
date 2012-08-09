@@ -4,6 +4,8 @@
         <title>Knockout Example App</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="media/css/bootstrap.css">
+        <link rel="stylesheet" href="media/css/font-awesome.css">
+        
     </head>
     <body>
         <div class="navbar">
@@ -26,9 +28,9 @@
             <div class="span2">
                 <ul class="nav nav-list well">
                     <li class="nav-header">School App</li>
-                    <li data-bind="click: enableClassrooms, css: { active: shouldShowClassrooms }"><a href="#"><i data-bind="css: { 'icon-white': shouldShowClassrooms }" class="icon-book"></i> Classrooms</a></li>
+                    <li data-bind="click: enableClassrooms, css: { active: shouldShowClassrooms }"><a href="#"><i data-bind="css: { 'icon-white': shouldShowClassrooms }" class="icon-group"></i> Classrooms</a></li>
                     <li data-bind="click: enableTeachers, css: { active: shouldShowTeachers }"><a href="#"><i data-bind="css: { 'icon-white': shouldShowTeachers }" class="icon-user"></i> Teachers</a></li>
-                    <li data-bind="click: enableStudents, css: { active: shouldShowStudents }"><a href="#"><i data-bind="css: { 'icon-white': shouldShowStudents }" class="icon-user"></i> Students</a></li>        
+                    <li data-bind="click: enableStudents, css: { active: shouldShowStudents }"><a href="#"><i data-bind="css: { 'icon-white': shouldShowStudents }" class="icon-book"></i> Students</a></li>        
                 </ul>
             
             </div>
