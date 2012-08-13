@@ -2,6 +2,7 @@ function CreateTeacherForm() {
     var self = this;
     self.teacherName = ko.observable();
     
+    
     self.save = function() {
         self.validate();
         var person = new Person(null, self.teacherName());
@@ -10,6 +11,7 @@ function CreateTeacherForm() {
         app.alerts.text('Teacher saved successfully!');
         app.alerts.show();
         app.alerts.setSuccess();
+        app.createClassroomForm.updateTypeahead();        
         $(app.alerts.getSelector()).fadeOut(10000, function() {
             // Animation complete.
         });

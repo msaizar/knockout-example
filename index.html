@@ -79,7 +79,7 @@
                                     <div class="control-group">
                                       <label class="control-label" for="teacher-input">Teacher in charge</label>
                                       <div class="controls">
-                                        <input data-bind="value: createClassroomForm.teacherName" type="text" class="input-xlarge" id="teacher-input">
+                                        <input id="teacher-typeahead" data-provide="typeahead" data-bind="value: createClassroomForm.teacherName" type="text" class="input-xlarge" id="teacher-input">
                                         <p class="help-block">Start typing the teachers name! Select it from the box if she already exists.</p>
                                       </div>
                                     </div>
@@ -175,7 +175,8 @@
         
     </div>
 
-    <script src="media/js/libs/jquery-1.8.0.min.js"></script>    
+    <script src="media/js/libs/jquery-1.8.0.min.js"></script>
+    <script src="media/js/libs/bootstrap-typeahead.js"></script>
     <script src="media/js/libs/knockout-2.1.0.js"></script>
     <script src="media/js/app/models/classroom.js"></script>
     <script src="media/js/app/models/person.js"></script>    

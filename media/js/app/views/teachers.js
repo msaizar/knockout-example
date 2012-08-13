@@ -18,7 +18,6 @@ function TeachersView() {
         self.shouldShowCreate(true);
     }
     
-    
     self.numberOfTeachers = function() {    
         return window.teachers().length;
     }
