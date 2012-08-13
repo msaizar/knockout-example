@@ -23,21 +23,27 @@ function AlertsView() {
     
     self.show = function() {
         self.shouldShow(true);
+        $(self.getSelector()).fadeOut(10000, function() {
+            // Animation complete.
+        });
     }
     
     self.setError = function() {
         self.disableType();
         self.isError(true);
+        self.show();
     }
     
     self.setSuccess = function() {
         self.disableType();
         self.isSuccess(true);
+        self.show();
     }
     
     self.setInfo = function() {
         self.disableType();
         self.isInfo(true);
+        self.show();
     }
     
     

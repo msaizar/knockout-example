@@ -3,16 +3,13 @@ function CreateStudentForm() {
     self.studentName = ko.observable();
     
     self.save = function() {
-        self.validate();
-        var person = new Person(null, self.studentName());
-        window.students.push(person);
-        self.reset();
-        app.alerts.text('Student saved successfully!');
-        app.alerts.show();
-        app.alerts.setSuccess();
-        $(app.alerts.getSelector()).fadeOut(10000, function() {
-            // Animation complete.
-        });
+        if (self.validate()) {
+            var person = new Person(null, self.studentName());
+            window.students.push(person);
+            self.reset();
+            app.alerts.text('Student saved successfully!');
+            app.alerts.setSuccess();
+        }
     }
     
     self.reset = function() {
@@ -20,6 +17,14 @@ function CreateStudentForm() {
     }
     
     self.validate = function() {
-        return true;
+        var validate = true;
+        ko.utils.arrayForEach(window.students(), function(item) {
+            if (self.studentName() == item.name()) {
+                app.alerts.text('Student name already exists');
+                app.alerts.setError();
+                validate = false;
+            }                    
+        });
+        return validate;
     }
 }

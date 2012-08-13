@@ -4,17 +4,17 @@ function CreateTeacherForm() {
     
     
     self.save = function() {
-        self.validate();
-        var person = new Person(null, self.teacherName());
-        window.teachers.push(person);
-        self.reset();
-        app.alerts.text('Teacher saved successfully!');
-        app.alerts.show();
-        app.alerts.setSuccess();
-        app.createClassroomForm.updateTypeahead();        
-        $(app.alerts.getSelector()).fadeOut(10000, function() {
-            // Animation complete.
-        });
+        if (self.validate()) {
+            var person = new Person(null, self.teacherName());
+            window.teachers.push(person);
+            self.reset();
+            app.alerts.text('Teacher saved successfully!');
+            app.alerts.setSuccess();
+            app.createClassroomForm.updateTypeahead();        
+            $(app.alerts.getSelector()).fadeOut(10000, function() {
+                // Animation complete.
+            });
+        }
     }
     
     self.reset = function() {
@@ -22,6 +22,14 @@ function CreateTeacherForm() {
     }
     
     self.validate = function() {
-        return true;
+        var validate = true;
+        ko.utils.arrayForEach(window.teachers(), function(item) {
+            if (self.teacherName() == item.name()) {
+                app.alerts.text('Teacher name already exists');
+                app.alerts.setError();
+                validate = false;
+            }                    
+        });
+        return validate;
     }
 }

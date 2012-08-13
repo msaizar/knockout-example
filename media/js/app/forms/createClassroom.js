@@ -1,7 +1,7 @@
 function CreateClassroomForm() {
     var self = this;
     self.teacherName = ko.observable();
-    self.classroomName = ko.observable();
+    self.classroomName = ko.observable();    
     
     self.teacherTypeahead = $("#teacher-typeahead").typeahead();
 
@@ -20,8 +20,19 @@ function CreateClassroomForm() {
     
     self.save = function() {
         self.validate();
-        var person = new Person(null, self.teacherName());
-        window.teachers.push(person);
+        var exists = false;
+        var person;
+        ko.utils.arrayForEach(window.teachers(), function(item) {
+            if (self.teacherName == item.name()) {
+                person = item;
+                exists = true;
+            }                    
+        });
+        
+        if (!exists) { 
+            var person = new Person(null, self.teacherName());
+            window.teachers.push(person);
+        }
         window.classrooms.push(new Classroom(null, self.classroomName(), person.id() ));
         self.reset();
         self.updateTypeahead();
