@@ -11,11 +11,11 @@
         <div class="navbar">
           <div class="navbar-inner">
             <div class="container-fluid">
-                <a data-bind="click: enableSplashScreen" class="brand" href="#">
+                <a data-bind="click: tabs.enableSplashScreen" class="brand" href="#">
                   School App
                 </a>
                 <ul class="nav">
-                    <li data-bind="click: enableSplashScreen"><a href="#">Home</a></li>
+                    <li data-bind="click: tabs.enableSplashScreen"><a href="#">Home</a></li>
                     <li><a href="#">About Us</a></li>
                     <li><a href="#">Pricing</a></li>
                     <li><a href="#">Contact Us</a></li>
@@ -25,46 +25,169 @@
         </div>
     <div class="container-fluid">
         <div class="row-fluid">
-            <div class="span2">
-                <ul class="nav nav-list well">
-                    <li class="nav-header">School App</li>
-                    <li data-bind="click: enableClassrooms, css: { active: shouldShowClassrooms }"><a href="#"><i data-bind="css: { 'icon-white': shouldShowClassrooms }" class="icon-group"></i> Classrooms</a></li>
-                    <li data-bind="click: enableTeachers, css: { active: shouldShowTeachers }"><a href="#"><i data-bind="css: { 'icon-white': shouldShowTeachers }" class="icon-user"></i> Teachers</a></li>
-                    <li data-bind="click: enableStudents, css: { active: shouldShowStudents }"><a href="#"><i data-bind="css: { 'icon-white': shouldShowStudents }" class="icon-book"></i> Students</a></li>        
+            <div class="span12">
+                <ul class="nav nav-tabs">
+                    <li data-bind="click: tabs.enableClassrooms, css: { active: tabs.shouldShowClassrooms }"><a href="#"><i data-bind="css: { 'icon-white': tabs.shouldShowClassrooms }" class="icon-group"></i> Classrooms</a></li>
+                    <li data-bind="click: tabs.enableTeachers, css: { active: tabs.shouldShowTeachers }"><a href="#"><i data-bind="css: { 'icon-white': tabs.shouldShowTeachers }" class="icon-user"></i> Teachers</a></li>
+                    <li data-bind="click: tabs.enableStudents, css: { active: tabs.shouldShowStudents }"><a href="#"><i data-bind="css: { 'icon-white': tabs.shouldShowStudents }" class="icon-book"></i> Students</a></li>        
                 </ul>
             
-            </div>
-            <div class="span10">
-                
-                <div data-bind="visible: shouldShowSplashScreen" class="hero-unit">
-                  <h1>School App</h1>
-                  <p>Example app in knockout.js</p>
-                  <p>
-                    <a data-bind="click: enableClassrooms" class="btn btn-primary btn-large">
-                      Get started
-                    </a>
-                  </p>
+                <div id="alert" data-bind="visible: alerts.shouldShow, css: { 'alert-error': alerts.isError, 'alert-success': alerts.isSuccess, 'alert-info': alerts.isInfo }" class="alert">
+                    <span data-bind="text: alerts.text"></span>                    
                 </div>
                 
-                <div data-bind="visible: shouldShowClassrooms">
-                <h1>Classrooms</h1>
+                <div class="row-fluid">
+                    <div class="span12" data-bind="visible: tabs.shouldShowSplashScreen" class="hero-unit">
+                      <h1>School App</h1>
+                      <p>Example app in knockout.js</p>
+                      <p>
+                        <a data-bind="click: tabs.enableClassrooms" class="btn btn-primary btn-large">
+                          Get started
+                        </a>
+                      </p>
+                    </div>
                 </div>
-                <div data-bind="visible: shouldShowTeachers">
-                <h1>Teachers</h1>
-                </div>
-                <div data-bind="visible: shouldShowStudents">
-                <h1>Students</h1>
-                </div>
+                <div class="row-fluid">
+                    <div class="span12" id="classrooms_view" data-bind="visible: tabs.shouldShowClassrooms">
+                        <div>
+
+                            <div class="alert alert-info" data-bind="visible: classroomsView.numberOfClassrooms() == 0">No classrooms created! Get started by creating a brand new classroom.</div> 
+                            <hr/>
+                            
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span2">
+                                <ul class="nav nav-list">
+                                <li class="nav-header"><i class="icon-group"></i> Classrooms (<span data-bind="text: classroomsView.numberOfClassrooms()"></span>)</li>
+                                <li data-bind="click: classroomsView.enableCreate"><a href="#">New <i class="icon-plus"></i></a></li>
+                                <!-- ko foreach: window.classrooms -->
+                                <li><a data-bind="text: classroomName" href="#"></a></li>
+                                <!-- /ko -->
+                                </ul>
+                            </div>            
+                            <div data-bind="visible: classroomsView.shouldShowCreate" class="span10">
+                                <form class="form-horizontal">
+                                    <fieldset>
+                                        <legend>Create a classroom</legend>
+                                    <div class="control-group">
+                                      <label class="control-label" for="class-input">Classroom</label>
+                                      <div class="controls">
+                                        <input data-bind="value: createClassroomForm.classroomName" type="text" class="input-xlarge" id="class-input">
+                                        <p class="help-block">Enter a unique classroom identifier</p>
+                                      </div>
+                                    </div>
+                                    <div class="control-group">
+                                      <label class="control-label" for="teacher-input">Teacher in charge</label>
+                                      <div class="controls">
+                                        <input data-bind="value: createClassroomForm.teacherName" type="text" class="input-xlarge" id="teacher-input">
+                                        <p class="help-block">Start typing the teachers name! Select it from the box if she already exists.</p>
+                                      </div>
+                                    </div>
+                                    <div class="form-actions">
+                                    <button data-bind="click: createClassroomForm.save" type="submit" class="btn btn-primary">Save changes</button>
+                                    <button data-bind="click: createClassroomForm.reset" class="btn">Clear</button>
+                                    </div>
+                                    </fieldset>
+                            
+                                </form>
+                            </div>            
+                            <div data-bind="visible: classroomsView.shouldShowClass" class="span6">
+                                Class
+                            </div>            
+                        
+                        </div>
+                    </div>
                 
+                    <div data-bind="visible: tabs.shouldShowTeachers">
+                        <div class="alert alert-info" data-bind="visible: teachersView.numberOfTeachers() == 0">No teachers created! Get started by creating a teacher.</div>        
+                        <hr/>
+                                  
+                        <div class="row-fluid">
+                            <div class="span2">
+                                <ul class="nav nav-list">
+                                <li class="nav-header"><i class="icon-group"></i> Teachers (<span data-bind="text: teachersView.numberOfTeachers()"></span>)</li>
+                                <li data-bind="click: teachersView.enableCreate"><a href="#">New <i class="icon-plus"></i></a></li>
+                                <!-- ko foreach: window.teachers -->
+                                <li><a data-bind="text: name" href="#"></a></li>
+                                <!-- /ko -->
+                                </ul>
+                            </div>
+                            <div data-bind="visible: teachersView.shouldShowCreate" class="span10">
+                                <form class="form-horizontal">
+                                    <fieldset>
+                                        <legend>Create a teacher</legend>
+                                    <div class="control-group">
+                                      <label class="control-label" for="class-input">Teacher</label>
+                                      <div class="controls">
+                                        <input data-bind="value: createTeacherForm.teacherName" type="text" class="input-xlarge" id="class-input">
+                                        <p class="help-block">Enter the teachers name</p>
+                                      </div>
+                                    </div>
+                                    <div class="form-actions">
+                                    <button data-bind="click: createTeacherForm.save" type="submit" class="btn btn-primary">Save changes</button>
+                                    <button data-bind="click: createTeacherForm.reset" class="btn">Clear</button>
+                                    </div>
+                                    </fieldset>
+                            
+                                </form>
+                            </div>     
+                        </div>       
+                            
+                    </div>
+                    <div data-bind="visible: tabs.shouldShowStudents">
+                        <div class="alert alert-info" data-bind="visible: studentsView.numberOfStudents() == 0">No students created! Get started by creating a student.</div>                  
+                        <hr/>
+                        <div class="row-fluid">
+                            <div class="span2">
+                                <ul class="nav nav-list">
+                                <li class="nav-header"><i class="icon-group"></i> Students (<span data-bind="text: studentsView.numberOfStudents()"></span>)</li>
+                                <li data-bind="click: studentsView.enableCreate"><a href="#">New <i class="icon-plus"></i></a></li>
+                                <!-- ko foreach: window.students -->
+                                <li><a data-bind="text: name" href="#"></a></li>
+                                <!-- /ko -->
+                                </ul>
+                            </div>
+                            <div data-bind="visible: studentsView.shouldShowCreate" class="span10">
+                                <form class="form-horizontal">
+                                    <fieldset>
+                                        <legend>Create a student</legend>
+                                    <div class="control-group">
+                                      <label class="control-label" for="class-input">Student</label>
+                                      <div class="controls">
+                                        <input data-bind="value: createStudentForm.studentName" type="text" class="input-xlarge" id="class-input">
+                                        <p class="help-block">Enter the students name</p>
+                                      </div>
+                                    </div>
+                                    <div class="form-actions">
+                                    <button data-bind="click: createStudentForm.save" type="submit" class="btn btn-primary">Save changes</button>
+                                    <button data-bind="click: createStudentForm.reset" class="btn">Clear</button>
+                                    </div>
+                                    </fieldset>
+                            
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
             </div>
         </div>
         
     </div>
 
-    
-    <script src="media/js/knockout-2.1.0.js"></script>
-    <script src="media/js/tabs.js"></script>
+    <script src="media/js/libs/jquery-1.8.0.min.js"></script>    
+    <script src="media/js/libs/knockout-2.1.0.js"></script>
+    <script src="media/js/app/models/classroom.js"></script>
+    <script src="media/js/app/models/person.js"></script>    
+    <script src="media/js/app/forms/createClassroom.js"></script>
+    <script src="media/js/app/forms/createTeacher.js"></script>
+    <script src="media/js/app/forms/createStudent.js"></script>
+    <script src="media/js/app/views/tabs.js"></script>
+    <script src="media/js/app/views/alerts.js"></script>
+    <script src="media/js/app/views/classrooms.js"></script>
+    <script src="media/js/app/views/teachers.js"></script>
+    <script src="media/js/app/views/students.js"></script>
+    <script src="media/js/app/init.js"></script>
     
     </body>
 </html>

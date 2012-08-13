@@ -11,6 +11,9 @@ function TabsModel() {
         self.shouldShowClassrooms(false);
         self.shouldShowTeachers(false);
         self.shouldShowStudents(false);
+        app.createClassroomForm.reset();
+        app.createTeacherForm.reset();
+        app.createStudentForm.reset();
     }
     
     self.enableSplashScreen = function() {
@@ -35,5 +38,3 @@ function TabsModel() {
 }
 
 
-window.tabs = new TabsModel();
-ko.applyBindings(window.tabs);
