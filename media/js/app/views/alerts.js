@@ -18,30 +18,39 @@ function AlertsView() {
     }
     
     self.hide = function() {
+        $(self.getSelector()).stop();
+        $(self.getSelector()).fadeTo(0, 1);
         self.shouldShow(false);
     }
     
     self.show = function() {
         self.shouldShow(true);
+        $(self.getSelector()).show();        
         $(self.getSelector()).fadeOut(10000, function() {
             // Animation complete.
         });
     }
     
-    self.setError = function() {
+    self.setError = function(text) {
+        self.hide();
         self.disableType();
+        self.text(text);
         self.isError(true);
         self.show();
     }
     
-    self.setSuccess = function() {
+    self.setSuccess = function(text) {
+        self.hide();
         self.disableType();
+        self.text(text);
         self.isSuccess(true);
         self.show();
     }
     
-    self.setInfo = function() {
+    self.setInfo = function(text) {
+        self.hide();
         self.disableType();
+        self.text(text);
         self.isInfo(true);
         self.show();
     }

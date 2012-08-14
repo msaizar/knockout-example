@@ -7,8 +7,7 @@ function CreateStudentForm() {
             var person = new Person(null, self.studentName());
             window.students.push(person);
             self.reset();
-            app.alerts.text('Student saved successfully!');
-            app.alerts.setSuccess();
+            app.alerts.setSuccess('Student saved successfully!');
         }
     }
     
@@ -20,11 +19,14 @@ function CreateStudentForm() {
         var validate = true;
         ko.utils.arrayForEach(window.students(), function(item) {
             if (self.studentName() == item.name()) {
-                app.alerts.text('Student name already exists');
-                app.alerts.setError();
+                app.alerts.setError('Student name already exists');
                 validate = false;
             }                    
         });
+        if ($.trim(self.teacherName()) == "") {
+            app.alerts.setError('You must enter a students name');
+            validate = false;
+        }
         return validate;
     }
 }

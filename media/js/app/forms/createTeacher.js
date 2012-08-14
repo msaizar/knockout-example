@@ -8,8 +8,7 @@ function CreateTeacherForm() {
             var person = new Person(null, self.teacherName());
             window.teachers.push(person);
             self.reset();
-            app.alerts.text('Teacher saved successfully!');
-            app.alerts.setSuccess();
+            app.alerts.setSuccess('Teacher saved successfully!');
             app.createClassroomForm.updateTypeahead();        
             $(app.alerts.getSelector()).fadeOut(10000, function() {
                 // Animation complete.
@@ -25,11 +24,14 @@ function CreateTeacherForm() {
         var validate = true;
         ko.utils.arrayForEach(window.teachers(), function(item) {
             if (self.teacherName() == item.name()) {
-                app.alerts.text('Teacher name already exists');
-                app.alerts.setError();
+                app.alerts.setError('Teacher name already exists');
                 validate = false;
             }                    
         });
+        if ($.trim(self.teacherName()) == "") {
+            app.alerts.setError('You must enter a teachers name');
+            validate = false;
+        }
         return validate;
     }
 }

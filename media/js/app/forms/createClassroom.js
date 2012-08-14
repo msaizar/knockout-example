@@ -19,29 +19,25 @@ function CreateClassroomForm() {
     }
     
     self.save = function() {
-        self.validate();
-        var exists = false;
-        var person;
-        ko.utils.arrayForEach(window.teachers(), function(item) {
-            if (self.teacherName == item.name()) {
-                person = item;
-                exists = true;
-            }                    
-        });
+        if (self.validate()) {
+            var exists = false;
+            var person;
+            ko.utils.arrayForEach(window.teachers(), function(item) {
+                if (self.teacherName() == item.name()) {
+                    person = item;
+                    exists = true;
+                }                    
+            });
         
-        if (!exists) { 
-            var person = new Person(null, self.teacherName());
-            window.teachers.push(person);
+            if (!exists) { 
+                var person = new Person(null, self.teacherName());
+                window.teachers.push(person);
+            }
+            window.classrooms.push(new Classroom(null, self.classroomName(), person.id() ));
+            self.reset();
+            self.updateTypeahead();
+            app.alerts.setSuccess('Classroom saved successfully!');
         }
-        window.classrooms.push(new Classroom(null, self.classroomName(), person.id() ));
-        self.reset();
-        self.updateTypeahead();
-        app.alerts.text('Classroom saved successfully!');
-        app.alerts.show();
-        app.alerts.setSuccess();
-        $(app.alerts.getSelector()).fadeOut(10000, function() {
-            // Animation complete.
-        });
     }
     
     self.reset = function() {
@@ -50,6 +46,22 @@ function CreateClassroomForm() {
     }
     
     self.validate = function() {
-        return true;
-    }
+        var validate = true;
+        ko.utils.arrayForEach(window.classrooms(), function(item) {
+            if (self.classroomName() == item.classroomName()) {
+                app.alerts.setError('Classroom name already exists');
+                validate = false;
+            }                    
+        });
+        if ($.trim(self.teacherName()) == "") {
+            app.alerts.setError('You must enter a teachers name');
+            validate = false;
+        }
+        if ($.trim(self.classroomName()) == "") {
+            app.alerts.setError('You must enter a classroom name');
+            validate = false;
+        }
+        
+        return validate;
+    }    
 }
