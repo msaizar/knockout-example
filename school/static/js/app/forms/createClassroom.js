@@ -9,7 +9,7 @@ function CreateClassroomForm() {
     self.getTeachersForTypeahead = function() {
         var results = [];
         ko.utils.arrayForEach(window.teachers(), function(item) {
-            results.push(item.name());        
+            results.push(item.fullName());        
         });
         return results;
     };
@@ -23,14 +23,14 @@ function CreateClassroomForm() {
             var exists = false;
             var person;
             ko.utils.arrayForEach(window.teachers(), function(item) {
-                if (self.teacherName() == item.name()) {
+                if (self.teacherName() == item.fullName()) {
                     person = item;
                     exists = true;
                 }                    
             });
         
             if (!exists) { 
-                var person = new Person(null, self.teacherName());
+                var person = new Teacher(null, self.teacherName());
                 window.teachers.push(person);
             }
             window.classrooms.push(new Classroom(null, self.classroomName(), person.id() ));

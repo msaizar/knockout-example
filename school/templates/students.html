@@ -1,0 +1,34 @@
+<div class="tab-pane" id="students">
+    <div class="alert alert-info" data-bind="visible: studentsView.numberOfStudents() == 0">No students created! Get started by creating a student.</div>                  
+    <hr/>
+    <div class="row-fluid">
+        <div class="span2">
+            <ul class="nav nav-list">
+            <li class="nav-header"><i class="icon-group"></i> Students (<span data-bind="text: studentsView.numberOfStudents()"></span>)</li>
+            <li data-bind="click: studentsView.enableCreate"><a href="#">New <i class="icon-plus"></i></a></li>
+            <!-- ko foreach: window.students -->
+            <li><a data-bind="text: fullName" href="#"></a></li>
+            <!-- /ko -->
+            </ul>
+        </div>
+        <div data-bind="visible: studentsView.shouldShowCreate" class="span10">
+            <form class="form-horizontal">
+                <fieldset>
+                    <legend>Create a student</legend>
+                <div class="control-group">
+                  <label class="control-label" for="class-input">Student</label>
+                  <div class="controls">
+                    <input data-bind="value: createStudentForm.studentName" type="text" class="input-xlarge" id="class-input">
+                    <p class="help-block">Enter the students name</p>
+                  </div>
+                </div>
+                <div class="form-actions">
+                <button data-bind="click: createStudentForm.save" type="submit" class="btn btn-primary">Save changes</button>
+                <button data-bind="click: createStudentForm.reset" class="btn">Clear</button>
+                </div>
+                </fieldset>
+        
+            </form>
+        </div>
+    </div>
+</div>

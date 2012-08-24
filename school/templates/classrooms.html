@@ -1,0 +1,48 @@
+
+<div class="tab-pane active" id="classrooms">
+
+        <div class="alert alert-info" data-bind="visible: classroomsView.numberOfClassrooms() == 0">No classrooms created! Get started by creating a brand new classroom.</div> 
+        <hr/>
+        
+    <div class="row-fluid">
+        <div class="span2">
+            <ul class="nav nav-list">
+            <li class="nav-header"><i class="icon-group"></i> Classrooms (<span data-bind="text: classroomsView.numberOfClassrooms()"></span>)</li>
+            <li data-bind="click: classroomsView.enableCreate"><a href="#">New <i class="icon-plus"></i></a></li>
+            <!-- ko foreach: window.classrooms -->
+            <li><a data-bind="text: classroomName" href="#"></a></li>
+            <!-- /ko -->
+            </ul>
+        </div>            
+        <div data-bind="visible: classroomsView.shouldShowCreate" class="span10">
+            <form class="form-horizontal">
+                <fieldset>
+                    <legend>Create a classroom</legend>
+                <div class="control-group">
+                  <label class="control-label" for="class-input">Classroom</label>
+                  <div class="controls">
+                    <input data-bind="value: createClassroomForm.classroomName" type="text" class="input-xlarge" id="class-input">
+                    <p class="help-block">Enter a unique classroom identifier</p>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="teacher-input">Teacher in charge</label>
+                  <div class="controls">
+                    <input id="teacher-typeahead" data-provide="typeahead" data-bind="value: createClassroomForm.teacherName" type="text" class="input-xlarge" id="teacher-input">
+                    <p class="help-block">Start typing the teachers name! Select it from the box if she already exists.</p>
+                  </div>
+                </div>
+                <div class="form-actions">
+                <button data-bind="click: createClassroomForm.save" type="submit" class="btn btn-primary">Save changes</button>
+                <button data-bind="click: createClassroomForm.reset" class="btn">Clear</button>
+                </div>
+                </fieldset>
+        
+            </form>
+        </div>            
+        <div data-bind="visible: classroomsView.shouldShowClass" class="span6">
+            Class
+        </div>            
+    
+    </div>
+</div>

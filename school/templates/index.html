@@ -1,0 +1,41 @@
+{% include 'header.html' %}
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                    <li class="active"><a href="#classrooms" data-toggle="tab"><i class="icon-group"></i> Classrooms</a></li>
+                    <li><a href="#teachers" data-toggle="tab"><i class="icon-user"></i> Teachers</a></li>
+                    <li><a href="#students" data-toggle="tab"><i class="icon-book"></i> Students</a></li>        
+                </ul>
+            
+                <div id="alert" data-bind="visible: alerts.shouldShow, css: { 'alert-error': alerts.isError, 'alert-success': alerts.isSuccess, 'alert-info': alerts.isInfo }" class="alert">
+                    <span data-bind="text: alerts.text"></span>                    
+                </div>
+                
+                <div class="row-fluid tab-content">
+                    {% include 'classrooms.html' %}
+                    {% include 'teachers.html' %}
+                    {% include 'students.html' %}
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+
+    <script src="static/js/libs/jquery-1.8.0.min.js"></script>
+    <script src="static/js/libs/bootstrap-typeahead.js"></script>
+    <script src="static/js/libs/bootstrap-tab.js"></script>
+    <script src="static/js/libs/knockout-2.1.0.js"></script>
+    <script src="static/js/app/models.js"></script>
+    <script src="static/js/app/forms/createClassroom.js"></script>
+    <script src="static/js/app/forms/createTeacher.js"></script>
+    <script src="static/js/app/forms/createStudent.js"></script>
+    <script src="static/js/app/views/alerts.js"></script>
+    <script src="static/js/app/views/classrooms.js"></script>
+    <script src="static/js/app/views/teachers.js"></script>
+    <script src="static/js/app/views/students.js"></script>
+    <script src="static/js/app/init.js"></script>
+    
+    </body>
+</html>
