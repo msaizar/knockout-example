@@ -1,15 +1,20 @@
 <div class="tab-pane" id="students">
     <div class="alert alert-info" data-bind="visible: studentsView.numberOfStudents() == 0">No students created! Get started by creating a student.</div>                  
-    <hr/>
     <div class="row-fluid">
         <div class="span2">
-            <ul class="nav nav-list">
-            <li class="nav-header"><i class="icon-group"></i> Students (<span data-bind="text: studentsView.numberOfStudents()"></span>)</li>
+            <ul class="nav nav-list well">
+            <li class="nav-header"><i class="icon-book"></i> Students (<span data-bind="text: studentsView.numberOfStudents()"></span>)</li>
             <li data-bind="click: studentsView.enableCreate"><a href="#">New <i class="icon-plus"></i></a></li>
             <!-- ko foreach: window.students -->
-            <li><a data-bind="text: fullName" href="#"></a></li>
+            <li><a data-bind="text: fullName, click: app.studentsView.enableStudent" href="#"></a></li>
             <!-- /ko -->
             </ul>
+            <div data-bind="visible: studentsView.studentClasses().length != 0">         
+                <ul class="nav nav-list well">
+                <li class="nav-header">Attending</li>    
+                <!--ko foreach: studentsView.studentClasses --><li><a data-bind="text: classroomName, click: app.classroomsView.enableClass" href="#"></a></li><!-- /ko -->
+                </ul>
+            </div>
         </div>
         <div data-bind="visible: studentsView.shouldShowCreate" class="span10">
             <form class="form-horizontal">
@@ -18,17 +23,35 @@
                 <div class="control-group">
                   <label class="control-label" for="class-input">Student</label>
                   <div class="controls">
-                    <input data-bind="value: createStudentForm.studentName" type="text" class="input-xlarge" id="class-input">
+                    <input data-bind="value: studentsView.studentName" type="text" class="input-xlarge" id="class-input">
                     <p class="help-block">Enter the students name</p>
                   </div>
                 </div>
                 <div class="form-actions">
-                <button data-bind="click: createStudentForm.save" type="submit" class="btn btn-primary">Save changes</button>
-                <button data-bind="click: createStudentForm.reset" class="btn">Clear</button>
+                <button data-bind="click: studentsView.save" type="submit" class="btn btn-primary">Save changes</button>
+                <button data-bind="click: studentsView.reset" class="btn">Clear</button>
                 </div>
                 </fieldset>
         
             </form>
+        </div>
+        <div data-bind="visible: studentsView.shouldShowStudent" class="span10">
+            <form class="form-horizontal">
+                <fieldset>
+                    <legend>Edit a student</legend>
+                <div class="control-group">
+                  <label class="control-label" for="class-input">Student</label>
+                  <div class="controls">
+                    <input data-bind="value: studentsView.editStudent.fullName" type="text" class="input-xlarge" id="class-input">
+                    <p class="help-block">Enter the students name</p>
+                  </div>
+                </div>
+                <div class="form-actions">
+                <button data-bind="click: studentsView.saveEdit" type="submit" class="btn btn-primary">Save changes</button>
+                <button data-bind="click: studentsView.enableCreate" class="btn">Cancel</button>
+                </div>
+                </fieldset>
+            </form>        
         </div>
     </div>
 </div>

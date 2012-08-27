@@ -22,22 +22,14 @@ class Student(Person):
     telephone = models.TextField(blank=True)
 
 
-class ClassroomTeacher(models.Model):
-    classroom = models.ForeignKey('Classroom')
-    teacher = models.ForeignKey('Teacher')
-    
-class ClassroomStudent(models.Model):
-    classroom = models.ForeignKey('Classroom')
-    student = models.ForeignKey('Student')
-
 class Classroom(models.Model):
     """(Class description)"""
     identifier = models.TextField(blank=False, unique=True)
     description = models.TextField(blank=True)
     created = models.DateTimeField(blank=True, default=datetime.datetime.now)
     deleted = models.BooleanField(default=False)
-    teacher = models.ManyToManyField("Teacher", through="ClassroomTeacher")
-    student = models.ManyToManyField("Student", through="ClassroomStudent")
+    teacher = models.ManyToManyField("Teacher", null=True, blank=True)
+    student = models.ManyToManyField("Student", null=True, blank=True)
     class Admin:
         list_display = ('',)
         search_fields = ('',)

@@ -1,16 +1,21 @@
 <div class="tab-pane" id="teachers">
     <div class="alert alert-info" data-bind="visible: teachersView.numberOfTeachers() == 0">No teachers created! Get started by creating a teacher.</div>        
-    <hr/>
               
     <div class="row-fluid">
         <div class="span2">
-            <ul class="nav nav-list">
-            <li class="nav-header"><i class="icon-group"></i> Teachers (<span data-bind="text: teachersView.numberOfTeachers()"></span>)</li>
+            <ul class="nav nav-list well">
+            <li class="nav-header"><i class="icon-user"></i> Teachers (<span data-bind="text: teachersView.numberOfTeachers()"></span>)</li>
             <li data-bind="click: teachersView.enableCreate"><a href="#">New <i class="icon-plus"></i></a></li>
             <!-- ko foreach: window.teachers -->
-            <li><a data-bind="text: fullName" href="#"></a></li>
+            <li><a data-bind="text: fullName, click: app.teachersView.enableTeacher" href="#"></a></li>
             <!-- /ko -->
             </ul>
+            <div data-bind="visible: teachersView.teacherClasses().length != 0">     
+                <ul class="nav nav-list well">
+                <li class="nav-header">Teaching</li>    
+                <!--ko foreach: teachersView.teacherClasses --><li><a data-bind="text: classroomName" href="#"></a></li><!-- /ko -->
+                </ul>                    
+            </div>
         </div>
         <div data-bind="visible: teachersView.shouldShowCreate" class="span10">
             <form class="form-horizontal">
@@ -19,18 +24,36 @@
                 <div class="control-group">
                   <label class="control-label" for="class-input">Teacher</label>
                   <div class="controls">
-                    <input data-bind="value: createTeacherForm.teacherName" type="text" class="input-xlarge" id="class-input">
+                    <input data-bind="value: teachersView.teacherName" type="text" class="input-xlarge" id="class-input">
                     <p class="help-block">Enter the teachers name</p>
                   </div>
                 </div>
                 <div class="form-actions">
-                <button data-bind="click: createTeacherForm.save" type="submit" class="btn btn-primary">Save changes</button>
-                <button data-bind="click: createTeacherForm.reset" class="btn">Clear</button>
+                <button data-bind="click: teachersView.save" type="submit" class="btn btn-primary">Save changes</button>
+                <button data-bind="click: teachersView.reset" class="btn">Clear</button>
                 </div>
                 </fieldset>
         
             </form>
         </div>     
+        <div data-bind="visible: teachersView.shouldShowTeacher" class="span10">
+            <form class="form-horizontal">
+                <fieldset>
+                    <legend>Edit a teacher</legend>
+                <div class="control-group">
+                  <label class="control-label" for="class-input">Teacher</label>
+                  <div class="controls">
+                    <input data-bind="value: teachersView.editTeacher.fullName" type="text" class="input-xlarge" id="class-input">
+                    <p class="help-block">Enter the teachers name</p>
+                  </div>
+                </div>
+                <div class="form-actions">
+                <button data-bind="click: teachersView.saveEdit" type="submit" class="btn btn-primary">Save changes</button>
+                <button data-bind="click: teachersView.enableCreate" class="btn">Cancel</button>
+                </div>
+                </fieldset>
+            </form>            
+        </div>
     </div>       
         
 </div>

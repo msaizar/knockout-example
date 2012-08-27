@@ -11,8 +11,7 @@ class TeacherResource(ModelResource):
         detail_allowed_methods = ['get', 'post', 'put', 'delete']
         authorization = Authorization()
         always_return_data = True
-                
-                
+                                
 class StudentResource(ModelResource):
     class Meta:
         queryset = Student.objects.all()
@@ -22,8 +21,8 @@ class StudentResource(ModelResource):
         always_return_data = True
 
 class ClassroomResource(ModelResource):
-    teachers = fields.ToManyField(TeacherResource, 'teacher')
-    students = fields.ToManyField(StudentResource, 'student')
+    teachers = fields.ToManyField(TeacherResource, 'teacher', null=True)
+    students = fields.ToManyField(StudentResource, 'student', null=True)
     
     class Meta:
         queryset = Classroom.objects.all()

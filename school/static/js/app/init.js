@@ -12,9 +12,6 @@ var App = function() {
     self.classroomsView = new ClassroomsView();
     self.teachersView = new TeachersView();
     self.studentsView = new StudentsView();
-    self.createClassroomForm = new CreateClassroomForm();
-    self.createTeacherForm = new CreateTeacherForm();
-    self.createStudentForm = new CreateStudentForm();
     self.alerts = new AlertsView();
 }
 
@@ -54,7 +51,7 @@ $.ajax({
             var teacher = new Teacher(e.id, e.first_name, e.last_name);
             window.teachers.push(teacher);
         }); 
-        app.createClassroomForm.updateTypeahead();
+        //app.createClassroomForm.updateTypeahead();
         
     },
     error: function (response) {
