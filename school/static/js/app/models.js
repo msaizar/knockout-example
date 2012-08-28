@@ -129,6 +129,51 @@ var Classroom = function(id, classroomName) {
     self.teachers = ko.observableArray([]);
     self.students = ko.observableArray([]);
     
+    
+    self.save = function() {
+
+        var obj;
+        var type;
+        var url;
+
+        if (self.id() == null) {
+            obj = {identifier: self.classroomName()};
+            type = 'POST';
+            url = '/api/v1/classroom/?format=json';
+        }
+        else {
+            obj = {identifier: self.classroomName()};
+            type = 'PUT';
+            url = '/api/v1/classroom/' + self.id() +  '/?format=json';
+            
+        }
+
+        $.ajax({
+            url: url,
+            data: JSON.stringify(obj),
+            type: type,
+            contentType: 'application/json',
+            success: function (response) {
+                var classroom = new Classroom(response.id, response.identifier);
+                var found = false;
+                ko.utils.arrayForEach(window.classrooms(), function(item) {
+                    if (item.id() == classroom.id()) {
+                        item.classroomName(classroom.classroomName());
+                        found = true;
+                    }
+                });
+                if (!found) {
+                    window.classrooms.push(classroom);
+                }
+                app.alerts.setSuccess('Classroom saved successfully!');
+            },
+            error: function (response) {
+                app.alerts.setError('Failed to save classroom!');
+            }
+        });
+        
+    };
+    
     self.addTeacher = function(teacherId) {
         self.teachers.push(teacherId);
     }

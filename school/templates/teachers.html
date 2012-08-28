@@ -13,7 +13,7 @@
             <div data-bind="visible: teachersView.teacherClasses().length != 0">     
                 <ul class="nav nav-list well">
                 <li class="nav-header">Teaching</li>    
-                <!--ko foreach: teachersView.teacherClasses --><li><a data-bind="text: classroomName" href="#"></a></li><!-- /ko -->
+                <!--ko foreach: teachersView.teacherClasses --><li><a data-bind="text: classroomName, click: app.classroomsView.enableClass" href="#"></a></li><!-- /ko -->
                 </ul>                    
             </div>
         </div>

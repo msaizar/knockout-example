@@ -4,6 +4,7 @@ function ClassroomsView() {
     self.shouldShowClass = ko.observable(false);
     self.classroomName = ko.observable();    
     self.editClass = ko.observable(new Classroom(null, ''));
+    self.editClassroomForm = new Classroom(null, '');
 
     self.studentsInClass = ko.computed(function() {
         var flag;
@@ -43,28 +44,17 @@ function ClassroomsView() {
     }
 */
     self.saveEdit = function() {
+        if (self.validate(self.editClassroomForm.classroomName())) {            
+            self.editClassroomForm.save();
+        }
     
     }
 
     self.save = function() {
-        if (self.validate()) {
-            var obj = {identifier: self.classroomName()}
-
-            $.ajax({
-                url: '/api/v1/classroom/?format=json',
-                data: JSON.stringify(obj),
-                type: 'POST',
-                contentType: 'application/json',
-                success: function (response) {
-                    var classroom = new Classroom(response.id, response.identifier);
-                    window.classrooms.push(person);
-                    self.reset();
-                    app.alerts.setSuccess('Classroom saved successfully!');
-                },
-                error: function (response) {
-                    app.alerts.setError('Failed to save classroom!');
-                }
-            });
+        if (self.validate(self.classroomName())) {
+            var classroom = new Classroom(null, self.classroomName());
+            classroom.save();
+            self.reset();
         }
     }   
 
@@ -74,16 +64,16 @@ function ClassroomsView() {
     }
     
 
-    self.validate = function() {
+    self.validate = function(field) {
         var validate = true;
         ko.utils.arrayForEach(window.classrooms(), function(item) {
-            if (self.classroomName() == item.classroomName()) {
+            if (field == item.classroomName()) {
                 app.alerts.setError('Classroom name already exists');
                 validate = false;
             }                    
         });
 
-        if ($.trim(self.classroomName()) == "") {
+        if ($.trim(field) == "") {
             app.alerts.setError('You must enter a classroom name');
             validate = false;
         }
@@ -99,12 +89,15 @@ function ClassroomsView() {
         $('#tabs a[href="#classrooms"]').tab('show');
         self.disableAll();
         self.editClass(classroom);
+        self.editClassroomForm.id(classroom.id());
+        self.editClassroomForm.classroomName(classroom.classroomName());
         self.shouldShowClass(true);
     }
     
     self.enableCreate = function() {
         $('#tabs a[href="#classrooms"]').tab('show');
         self.editClass(new Classroom(null, ''));
+        self.editClassroomForm.id(-1);
         self.disableAll();
         self.shouldShowCreate(true);
     }
