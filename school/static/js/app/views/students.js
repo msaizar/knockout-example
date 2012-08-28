@@ -23,29 +23,17 @@ function StudentsView() {
     
     
     self.saveEdit = function() {
-        
+        if (self.validate(self.editStudent.fullName())) {
+            self.editStudent.save();
+        }
     }
     
     self.save = function() {
-        if (self.validate()) {
+        if (self.validate(self.studentName())) {
             var names = $.trim(self.studentName()).split(" ");
-            var obj = {first_name: names[0], last_name: names[1]}; 
-            
-            $.ajax({
-                url: '/api/v1/student/?format=json',
-                data: JSON.stringify(obj),
-                type: 'POST',
-                contentType: 'application/json',
-                success: function (response) {
-                    var person = new Student(response.id, response.first_name, response.last_name);
-                    window.students.push(person);
-                    self.reset();
-                    app.alerts.setSuccess('Student saved successfully!');
-                },
-                error: function (response) {
-                    app.alerts.setError('Failed to save student!');
-                }
-            });
+            var stu = new Student(null, names[0], names[1]);
+            stu.save();
+            self.reset();
         }
     }
     
@@ -53,15 +41,15 @@ function StudentsView() {
         self.studentName('');
     }
     
-    self.validate = function() {
+    self.validate = function(field) {
         var validate = true;
         ko.utils.arrayForEach(window.students(), function(item) {
-            if (self.studentName() == item.fullName()) {
+            if (field == item.fullName()) {
                 app.alerts.setError('Student name already exists');
                 validate = false;
             }                    
         });
-        if ($.trim(self.studentName()) == "") {
+        if ($.trim(field) == "") {
             app.alerts.setError('You must enter a students name');
             validate = false;
         }
@@ -76,9 +64,10 @@ function StudentsView() {
     self.enableStudent = function(student) {
         $('#tabs a[href="#students"]').tab('show');
         
-        self.editStudent.firstName(student.firstName());
         self.editStudent.id(student.id());
+        self.editStudent.firstName(student.firstName());
         self.editStudent.lastName(student.lastName());
+        
         self.disableAll();
         self.shouldShowStudent(true);
     }
